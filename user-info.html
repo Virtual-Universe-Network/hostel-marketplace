@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Info</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Enter Hostel Info</h2>
+    <label for="hostel">Hostel Name (1-100 + A-Z):</label>
+    <input type="text" id="hostel" placeholder="e.g., 25A">
+    <label for="room">Room Number (000-999):</label>
+    <input type="text" id="room" placeholder="e.g., 101">
+    
+    <label for="role">Select Role:</label>
+    <select id="role">
+        <option value="buyer">Buyer</option>
+        <option value="seller">Seller</option>
+    </select>
+    <button onclick="saveUserInfo()">Continue</button>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
