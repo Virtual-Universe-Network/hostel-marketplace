@@ -1,7 +1,7 @@
 // ----- Login Logic -----
 function loginEmail() {
     const email = document.getElementById('email').value;
-    if(!email.endsWith('@college.edu')) {
+    if(!email.endsWith('@kiit.ac.in')) {
         alert('Use your college email!');
         return;
     }
@@ -11,7 +11,7 @@ function loginEmail() {
 
 function loginGoogle() {
     const email = prompt('Simulate Google Login (Enter college email):');
-    if(!email || !email.endsWith('@college.edu')) {
+    if(!email || !email.endsWith('@kiit.ac.in')) {
         alert('Invalid college email');
         return;
     }
