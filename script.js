@@ -1,8 +1,14 @@
+// ----- College Email Validation -----
+function isValidCollegeEmail(email) {
+    const pattern = /^\d+@kiit\.ac\.in$/;
+    return pattern.test(email);
+}
+
 // ----- Login Logic -----
 function loginEmail() {
     const email = document.getElementById('email').value;
-    if(!email.endsWith('@kiit.ac.in')) {
-        alert('Use your college email!');
+    if(!isValidCollegeEmail(email)) {
+        alert('Use your KIIT college email (rollno@kiit.ac.in)!');
         return;
     }
     localStorage.setItem('email', email);
@@ -10,9 +16,9 @@ function loginEmail() {
 }
 
 function loginGoogle() {
-    const email = prompt('Simulate Google Login (Enter college email):');
-    if(!email || !email.endsWith('@kiit.ac.in')) {
-        alert('Invalid college email');
+    const email = prompt('Simulate Google Login (Enter KIIT college email):');
+    if(!email || !isValidCollegeEmail(email)) {
+        alert('Invalid KIIT college email');
         return;
     }
     localStorage.setItem('email', email);
@@ -54,9 +60,7 @@ function switchRole() {
     const user = JSON.parse(localStorage.getItem('user'));
     if(!user) return alert('User not found');
 
-    if(user.role === 'buyer') user.role = 'seller';
-    else user.role = 'buyer';
-
+    user.role = (user.role === 'buyer') ? 'seller' : 'buyer';
     localStorage.setItem('user', JSON.stringify(user));
 
     if(user.role === 'buyer') window.location.href = 'buyer.html';
@@ -92,61 +96,4 @@ function loadSellerItems() {
     container.innerHTML = '<h3>Your Items</h3>';
     let sold = 0, revenue = 0;
     userItems.forEach((item, idx) => {
-        sold += item.sold;
-        revenue += item.sold * item.price;
-        const div = document.createElement('div');
-        div.innerHTML = `<p>${item.name} | ₹${item.price} | Qty: ${item.quantity} | Sold: ${item.sold}</p>
-        <button onclick="deleteItem(${idx})">Delete</button>`;
-        container.appendChild(div);
-    });
-
-    document.getElementById('items-sold').innerText = `Items Sold: ${sold}`;
-    document.getElementById('revenue').innerText = `Total Revenue: ₹${revenue}`;
-    document.getElementById('active-listings').innerText = `Active Listings: ${userItems.length}`;
-}
-
-function deleteItem(idx) {
-    const items = JSON.parse(localStorage.getItem('items') || '[]');
-    items.splice(idx,1);
-    localStorage.setItem('items', JSON.stringify(items));
-    loadSellerItems();
-}
-
-// Load seller items when page loads
-if(document.getElementById('seller-items')) loadSellerItems();
-
-// ----- Buyer Logic -----
-function loadBuyerItems() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const items = JSON.parse(localStorage.getItem('items') || '[]');
-    const container = document.getElementById('items-container');
-    if(!container) return;
-
-    const hostelItems = items.filter(i => i.hostel === user.hostel);
-    container.innerHTML = '<h2>Items Available in Your Hostel</h2>';
-    hostelItems.forEach((item, idx) => {
-        const div = document.createElement('div');
-        div.className = 'item';
-        div.innerHTML = `<p>${item.name} | ₹${item.price} | Qty: ${item.quantity}</p>
-        <button onclick="buyItem(${idx})">Buy</button>`;
-        container.appendChild(div);
-    });
-}
-
-// Buy an item
-function buyItem(idx) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const items = JSON.parse(localStorage.getItem('items') || '[]');
-    const hostelItems = items.filter(i => i.hostel === user.hostel);
-    const item = hostelItems[idx];
-    if(!item || item.quantity <= 0) return alert('Item not available');
-
-    item.quantity -= 1;
-    item.sold = (item.sold || 0) + 1;
-    localStorage.setItem('items', JSON.stringify(items));
-    loadBuyerItems();
-    alert(`You bought ${item.name} for ₹${item.price}`);
-}
-
-// Load buyer items on page load
-if(document.getElementById('items-container')) loadBuyerItems();
+        sold += item
